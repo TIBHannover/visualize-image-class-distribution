@@ -1,0 +1,141 @@
+/*body ep-patent */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*H0 ep-patent */
+/*H2 common */
+/*H6 common - inline */
+.bold {
+  font-weight: bold;
+}
+
+/*H2 ep-patent specific */
+
+/*H6 - font */
+.t1 {
+  font-size: 12pt;
+} /* default BODY*/
+.t2 {
+  font-size: 9pt;
+}
+
+
+/* Taille SeParator (for NBSP) */
+.tsp {
+  font-size: 2pt;
+}
+
+/*H4 code inid and Btag */
+/*H6 code inid and Btag - numbering  */
+.inid_19 {
+  text-align: left;
+}
+.inid_11 {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 15pt;
+}
+.inid_12 {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 14pt;
+}
+.inid_121EP {
+  text-align: center;
+}
+
+/*H4 - table/para */
+.gt_Bnote {
+  text-align: left;
+  font-size: 6pt;
+}
+
+.ci1 {
+  font-size: 11pt;
+}
+.ci2 {
+  font-size: 10pt;
+}
+
+/*H4 - list/para */
+.novs {
+  margin-top: 0;
+  margin-bottom: 0;
+  z-index: 0;
+} /* No vertical space */
+.dec {
+  margin-left: 3em;
+  position: relative;
+  z-index: 0;
+} /* "decalage" like a list */
+
+
+/*H2 Table border (used also in class2Html)  */
+.t {
+  border-top: 1px solid black;
+}
+.b {
+  border-bottom: 1px solid black;
+}
+.r {
+  border-right: 1px solid black;
+}
+.l {
+  border-left: 1px solid black;
+}
+.tabtit {
+  text-align: center;
+  margin-top: 1em;
+}
+
+/*H2 debug*/
+/*H4 debug - adding color
+
+ .dec {color:red;}
+
+ .ci1 {color:lime;}
+ .ci2 {color:black;background-color:lime;}
+
+ .t1 {color:aqua;}
+ .t2 {color:black;background-color:aqua;}
+
+*/
+#patent-content {
+  margin-top: 25px;
+}
+
+.no-bullet {
+  list-style: none;
+}
+
+
+/* table2 col1  */
+td.t2c1 {
+  vertical-align: top;
+  width: 47%;
+}
+
+/* table2 col2  */
+td.t2c2 {
+  vertical-align: top;
+  width: 53%;
+}
+
+
+ol.li2 {
+  margin: 0pt;
+  padding-left: 0pt;
+  list-style-type: none;
+  counter-reset: list;
+}
+ol.li2 li:before {
+  counter-increment: list;
+  content: counter(list) ". ";
+}
+
+ul.li2 {
+  margin: 0pt;
+  padding-left: 9pt;
+}
+

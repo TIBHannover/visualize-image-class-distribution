@@ -1,0 +1,349 @@
+.imageviewer-modal {
+  cursor: default;
+  inset: 0px !important;
+  outline: none !important;
+  width: 0px;
+  height: 0px;
+  font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+}
+
+.imageviewer-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+
+
+.imageviewer-toolbar {
+  font-size: 0;
+}
+
+.imageviewer-button {
+  border-radius: 5px;
+  display: inline-block;
+  min-width: 30px;
+  height: 30px;
+  box-sizing: border-box;
+  margin: 0;
+  font-size: 20px;
+  line-height: 1;
+  text-align: center;
+  background: none;
+  border-width: 0;
+  color: inherit;
+  cursor: pointer;
+  outline: none;
+  margin-left: 2.5px;
+  margin-right: 2.5px;
+}
+
+.imageviewer-button:hover, .imageviewer-button:focus, .hideAll:focus,
+.modal-header button:hover, .hideAll:hover, e button:hover, b button:hover {
+  color: white;
+  background-color: var(--redish);
+}
+
+.imageviewer-button svg,
+.modal-header svg, e svg, b svg{
+  display: inline-block;
+  font-size: inherit;
+  width: 1em;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -.125em;
+}
+
+.imageviewer-header {
+  position: relative;
+  z-index: 2;
+  height: 30px;
+  overflow: hidden;
+  background-color: var(--background);
+}
+
+.imageviewer-header .imageviewer-toolbar {
+  float: right;
+}
+
+[dir="rtl"] .imageviewer-header .imageviewer-toolbar {
+  float: left;
+}
+
+.imageviewer-title {
+  padding: 8px 10px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.imageviewer-stage {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  bottom: 50px;
+  left: 10px;
+  z-index: 1;
+  background-color: white;
+  overflow: hidden;
+}
+
+.imageviewer-stage.stage-ready {
+  text-align: center;
+  font-size: 0;
+}
+
+.imageviewer-stage.stage-ready::before {
+  content: "";
+  display: inline-block;
+  height: 80%;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.imageviewer-footer {
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  height: 35px;
+  padding-top: 5px;
+  text-align: center;
+  background-color: var(--background);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.imageviewer-footer .imageviewer-toolbar {
+  display: inline-block;
+}
+
+:-webkit-full-screen {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+}
+
+:-webkit-full-screen .imageviewer-header,
+:-webkit-full-screen .imageviewer-footer,
+:-webkit-full-screen .imageviewer-resizable-handle {
+  display: none;
+}
+
+:-webkit-full-screen .imageviewer-stage {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-width: 0;
+  background-color: black;
+}
+
+:-moz-full-screen {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+}
+
+:-moz-full-screen .imageviewer-header,
+:-moz-full-screen .imageviewer-footer,
+:-moz-full-screen .imageviewer-resizable-handle {
+  display: none;
+}
+
+:-moz-full-screen .imageviewer-stage {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-width: 0;
+  background-color: black;
+}
+
+:-ms-fullscreen {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+}
+
+:-ms-fullscreen .imageviewer-header,
+:-ms-fullscreen .imageviewer-footer,
+:-ms-fullscreen .imageviewer-resizable-handle {
+  display: none;
+}
+
+:-ms-fullscreen .imageviewer-stage {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-width: 0;
+  background-color: black;
+}
+
+:full-screen {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+}
+
+:full-screen .imageviewer-header,
+:full-screen .imageviewer-footer,
+:full-screen .imageviewer-resizable-handle {
+  display: none;
+}
+
+:full-screen .imageviewer-stage {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-width: 0;
+  background-color: black;
+}
+
+:-webkit-full-screen {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+}
+
+:-ms-fullscreen {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+}
+
+:fullscreen {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+}
+
+:-webkit-full-screen .imageviewer-header,
+:-webkit-full-screen .imageviewer-footer,
+:-webkit-full-screen .imageviewer-resizable-handle {
+  display: none;
+}
+
+:-ms-fullscreen .imageviewer-header,
+:-ms-fullscreen .imageviewer-footer,
+:-ms-fullscreen .imageviewer-resizable-handle {
+  display: none;
+}
+
+:fullscreen .imageviewer-header,
+:fullscreen .imageviewer-footer,
+:fullscreen .imageviewer-resizable-handle {
+  display: none;
+}
+
+:-webkit-full-screen .imageviewer-stage {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-width: 0;
+  background-color: black;
+}
+
+:-ms-fullscreen .imageviewer-stage {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-width: 0;
+  background-color: black;
+}
+
+:fullscreen .imageviewer-stage {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-width: 0;
+  background-color: black;
+}
+
+::-webkit-backdrop {
+  background-color: black;
+}
+
+::backdrop {
+  background-color: black;
+}
+
+::-ms-backdrop {
+  background-color: black;
+}
+
+@-webkit-keyframes imageviewerLoading {
+  0% {
+    transform: rotateZ(0deg) translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: rotateZ(360deg) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes imageviewerLoading {
+  0% {
+    transform: rotateZ(0deg) translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: rotateZ(360deg) translate3d(0, 0, 0);
+  }
+}

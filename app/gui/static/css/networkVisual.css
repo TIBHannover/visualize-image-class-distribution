@@ -1,0 +1,9 @@
+table, th, td {
+    border: 1px solid black;
+  }
+
+
+  .clusterView {
+    height: 400px;
+    width: 100%;
+  }

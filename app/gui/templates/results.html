@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+  <style></style>
+
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+
+
+
+  <!-- <link rel="stylesheet" href="{{filebase+url_for('static', filename='css/patentview.css')}}"> -->
+  <link rel="stylesheet" href="{{filebase+url_for('static', filename='css/results-styles.css')}}">
+
+
+  <link rel="stylesheet" href="{{filebase+url_for('static', filename='css/photoviewer.css')}}">
+  <!--
+  <link href="../css/imageviewer.css" rel="stylesheet" />
+  -->
+
+
+  <!-- do we still need jQuery? -->
+  <script type="text/javascript" src="{{filebase+url_for('static', filename='js/jquery-3.6.0.min.js')}}"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Result List BOOTSTRAP</title>
+</head>
+
+<body class="d-flex flex-column h-100" onload="countResults()">
+
+  <!-- top navbar with logo and general navigation links-->
+  <input type="hidden" id="serverUrlBase" value="{{filebase}}">
+  <nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{filebase}}">
+        <img src="{{filebase+url_for('static', filename='images/VisPat-Logo.png')}}" height="50" />
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="get_search_ui?name=test_user1">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav justify-content-end">
+          <li class="nav-item fs-5">
+            <a class="nav-link link-danger" href="#" title="User Login"><i class="bi bi-person-fill"></i></a>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- TITLE -->
+  <div class="container-fluid mt-4">
+    <h1 class="text-center">Search Results (<span id="showResultNumb"></span>)</h1>
+  </div>
+
+  <!-- search result page specific actions -->
+  <ul class="nav justify-content-center fs-4 mt-4 gap-1">
+    <li class="nav-item">
+      <a class="nav-link active" href="search.html" aria-current="page" title="New Search"><i
+          class="bi bi-search"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" title="Display results as a grid" href="#" onclick="showGrid()"><i class="bi bi-grid"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" title="Display results as a list" href="#" onclick="showList()">
+        <i class="bi bi-list-ul"></i></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="savelist" href="#" title="Save Results"><i class="bi bi-save"></i></a>
+    </li>
+    <li class="nav-item mt-2">
+      <select class="form-select form-select-sm" id="add-to-list" onclick="alertListCreated(this)">
+        <option value="0" disabled selected>Add to list</option>
+        <option value="1">List 1</option>
+        <option value="2">List 2</option>
+        <option value="x">New List</option>
+      </select>
+    </li>
+    <li class="nav-item mt-2">
+      <select class="form-select form-select-sm" id="sort-by" onchange="sortTable()">
+        <option value="" disabled selected>Sort by</option>
+        <option value="relevance">Relevance</option>
+        <option value="ascending">Publication Date</option>
+        <option value="descending">Publication Date</option>
+      </select>
+    </li>
+
+  </ul>
+
+
+  <!--Modal for enlargen the Images in the table onclick
+  <div id="largeImgModal" class="modal">
+    <div id="largeImgClose" onclick="largeImgClose()">X</div>
+    <img id="largeImgContent">
+  </div>
+
+  <div class="margin-container">
+    <div id="sidebarTotal">
+      <button id="toggleButtonHide" onclick="toggleFilterBar()">Hide Filter-Sidebar</button>
+      <br>
+      <div id="filter1">
+        <h3 id="sidebarH3"> View Options </h3>
+        <h4> Hide</h4>
+        <form id="sidebarBoxes">
+          <input type="checkbox" id="box1" onchange="toggleColumn(this, 'colRel')" value="relevance">
+          <label for="box1"> Relevance</label><br>
+          <input type="checkbox" id="box2" onchange="toggleColumn(this, 'colPubNr')" value="PubNr">
+          <label for="box2" checked> Publication number</label><br>
+          <input type="checkbox" id="box3" onchange="toggleColumn(this, 'colTitle')" value="title">
+          <label for="box3"> Title</label><br>
+          <input type="checkbox" id="box4" onchange="toggleColumn(this, 'colYear')" value="publication-date">
+          <label for="box4"> Publication date</label><br>
+          <input type="checkbox" id="box5" onchange="toggleColumn(this, 'colInventor')" value="inventor">
+          <label for="box5"> Inventor</label><br>
+          <input type="checkbox" id="box6" onchange="toggleColumn(this, 'colPic')" value="picture">
+          <label for="box6"> Picture</label><br>
+          <br>
+        </form>
+
+        <h4>Publication Date</h4>
+        <div class="wrapper">
+          <img class="graph" src="images/graph1.PNG">
+          <br>
+          <div class="sliderContainer">
+            <div class="slider-track"></div>
+            <input type="range" min="1" max="100" value="3" id="fromSlider" oninput="sliderToInputValues()">
+            <input type="range" min="1" max="100" value="99" id="toSlider" oninput="sliderToInputValues()">
+            <br>
+            <input type="number" placeholder="from" id="fromInput" onblur="inputToSliderValues()" min="1950" max="2020">
+            <input type="number" placeholder="to" id="toInput" onblur="inputToSliderValues()" min="1951" max="2021">
+          </div>
+          <button id="submitYear" type="submit" class="sidebarButton">submit</button>
+        </div>
+        <button id="resetOptions" class="sidebarButton" onclick="resetViewOptions()">Reset view options</button>
+      </div>
+    </div>
+     Ende Code Ramona Sidebar Filters-->
+
+
+
+
+
+
+
+
+
+  <div class="wrapper">
+
+    <!-- RESULTS -->
+    <div class="container">
+      <!-- Filter Form -->
+      <div class="row" id="filterform">
+
+        <div class="col-6">
+          <button class="btn btn-primary float-left" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+            Filter
+          </button>
+        </div>
+
+        <div class="col-6">
+          <button id="previewbutton" class="btn btn-primary float-end" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapsePreview" aria-expanded="false" aria-controls="collapseWidthExample">
+            Preview
+          </button>
+        </div>
+
+      </div>
+      <div class="row">
+        <div id="collapseWidthExample" class="col-3 collapse collapse-horizontal">
+          <div class="panel-body">
+            <div class="card card-body">
+              <!-- Filter Tab Headers -->
+              <ul class="nav nav-tabs " id="filtertab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="patentfilter" data-bs-toggle="tab"
+                    data-bs-target="#patentfilter-pane" type="button" role="tab" aria-controls="patentfilter-pane"
+                    aria-selected="true">Patent
+                    Filter</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="generalfilter" data-bs-toggle="tab" data-bs-target="#generalfilter-pane"
+                    type="button" role="tab" aria-controls="generalfilter-pane" aria-selected="false">General
+                    Filter</button>
+                </li>
+              </ul>
+
+              <!-- Filter Tabs Content -->
+              <div class="tab-content" id="filtertabContent">
+
+                <!-- ------------------- Patent Filter -------------------- -->
+                <div class="tab-pane mt-4 active show" id="patentfilter-pane" role="tabpanel"
+                  aria-labelledby="patentfilter" tabindex="0">
+
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="1">
+                    <label class="form-check-label">
+                      Abstract
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="2">
+                    <label class="form-check-label">Applicant</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="3">
+                    <label class="form-check-label">Applicant country</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="4">
+                    <label class="form-check-label">Applicant country</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="5">
+                    <label class="form-check-label">Application-Number</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="6">
+                    <label class="form-check-label">Bezugszeichen</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="7">
+                    <label class="form-check-label">CPC</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="8">
+                    <label class="form-check-label">Date of filing</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="9">
+                    <label class="form-check-label">Date of publication</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="10">
+                    <label class="form-check-label">Inventor</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="11">
+                    <label class="form-check-label">Inventor country</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="12">
+                    <label class="form-check-label">IPC</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="13">
+                    <label class="form-check-label">Patentfamily</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" value="14">
+                    <label class="form-check-label">Sub IPC</label>
+                  </div>
+                </div>
+
+                <!-- --------------------General Filter ------------------- -->
+                <div class="tab-pane mt-4" id="generalfilter-pane" role="tabpanel" aria-labelledby="generalfilter"
+                  tabindex="1">
+
+                  <div class="container px-3">
+                    <div class="row gx-5 gy-5">
+
+                      <div class="col-3 overflow-auto" style="max-height:300px;" id="main-ipc-filter">
+                        <h5>Main IPC</h5>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="IPC1" name="IPC1"
+                            value="Human Neccesities">
+                          <label class="form-check-label">A: Human Neccesities</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="IPC2" name="IPC2"
+                            value="Performing Operations">
+                          <label class="form-check-label">B: Performing Operations</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="IPC3" name="IPC3"
+                            value="Chemistry; Metallurgy">
+                          <label class="form-check-label">C: Chemistry; Metallurgy</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="IPC4" name="IPC4" value="Textiles; Paper">
+                          <label class="form-check-label">D: Textiles; Paper</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="IPC5" name="IPC5"
+                            value="Fixed Constructions">
+                          <label class="form-check-label">E: Fixed Constructions</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="IPC6" name="IPC6"
+                            value="Mechanical Engeneering">
+                          <label class="form-check-label">F: Mechanical Engeneering; Lightning; Heating; Weapons;
+                            Blasting</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="IPC7" name="IPC7" value="Physics">
+                          <label class="form-check-label">G: Physics</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="IPC8" name="IPC8" value="Electricity">
+                          <label class="form-check-label">H: Electricity</label>
+                        </div>
+                      </div>
+
+                      <div class="col-3 overflow-auto" id="country-filter" style="max-height:300px;">
+                        <h5>Countries</h5>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="AL" value="AL">
+                          <label class="form-check-label" for="AL">AL - Albania</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="AT" value="AT">
+                          <label class="form-check-label" for="AT">AT - Austria</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="BE" value="BE">
+                          <label class="form-check-label" for="BE">BE - Belgium</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="BG" value="BG">
+                          <label class="form-check-label" for="BG">BG - Bulgaria</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="CH" value="CH">
+                          <label class="form-check-label" for="CH">CH - Switzerland</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="CY" value="CY">
+                          <label class="form-check-label" for="CY">CY - Cyprus</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="CZ" value="CZ">
+                          <label class="form-check-label" for="CZ">CZ - Czech Republic</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="DE" value="DE">
+                          <label class="form-check-label" for="DE">DE - Germany</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="DK" value="DK">
+                          <label class="form-check-label" for="DK">DK - Denmark</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="EE" value="EE">
+                          <label class="form-check-label" for="EE">EE - Estonia</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="ES" value="ES">
+                          <label class="form-check-label" for="ES">ES - Spain</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="FI" value="FI">
+                          <label class="form-check-label" for="FI">FI - Finland</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="FR" value="FR">
+                          <label class="form-check-label" for="FR">FR France</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="GB" value="GB">
+                          <label class="form-check-label" for="GB">GB Great Britain</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="GR" value="GR">
+                          <label class="form-check-label" for="GR">GR - Greece</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="HR" value="HR">
+                          <label class="form-check-label" for="HR">HR - Croatia</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="HU" value="HU">
+                          <label class="form-check-label" for="HU">HU - Hungary</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="IE" value="IE">
+                          <label class="form-check-label" for="IE">IE - Ireland</label>
+                        </div>
+
+                      </div>
+
+                      <div class="col-2 overflow-auto" id="language-filter">
+                        <h5>Language</h5>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LANG_EN" value="English">
+                          <label class="form-check-label">Englisch</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LANG_DE" value="German">
+                          <label class="form-check-label">German</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LANG_ES" value="Spanish">
+                          <label class="form-check-label">Spanish</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LANG_ZH" value="Chinese">
+                          <label class="form-check-label">Chinese</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LANG_FR" value="French">
+                          <label class="form-check-label">French</label>
+                        </div>
+                      </div>
+
+                      <div class="col-2" id="legal-status-filter">
+                        <h5>Legal Status</h5>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LEGAL_FILED" value="Filed">
+                          <label class="form-check-label">Filed</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LEGAL_APPROVED" value="Approved">
+                          <label class="form-check-label">Approved</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LEGAL_DENIED" value="Denied">
+                          <label class="form-check-label">Denied</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LEGAL_WITHDRAWN" value="Withdrawn">
+                          <label class="form-check-label">Withdrawn</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LEGAL_REEXAMINED" value="Reexamined">
+                          <label class="form-check-label">Reexamined</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LEGAL_REISSUED" value="Reissued">
+                          <label class="form-check-label">Reissued</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="LEGAL_INACTIVE" value="Inactive">
+                          <label class="form-check-label">Inactive</label>
+                        </div>
+
+                      </div>
+
+                      <div class="col-3" id="part-of-filter">
+                        <h5>Part of Patent</h5>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="POP_BIBLIOGRAPHIC_DATA"
+                            value="Bibliographic Data">
+                          <label class="form-check-label">Bibliographic Data</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="POP_DESCRIPTION" value="Description">
+                          <label class="form-check-label">Description</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="POP_CLAIMS" value="Claims">
+                          <label class="form-check-label">Claims</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="POP_DRAWINGS" value="Drawings">
+                          <label class="form-check-label">Drawings</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="POP_CITATION" value="Citation">
+                          <label class="form-check-label">Citation</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="POP_LEGAL_EVENTS" value="Legal Events">
+                          <label class="form-check-label">Legal Events</label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="POP_PATANT_FAMILY" value="Patent Family">
+                          <label class="form-check-label">Bibliographic Data</label>
+                        </div>
+                      </div>
+
+                      <div class="col-auto" id="date-filter">
+                        <h5>Publication Date</h5>
+                        <div>
+                          <label for="date1" class="form-label">from</label>
+                          <input type="date" class="form-control" id="date1" value="1970-01-01">
+                        </div>
+                        <div>
+                          <label for="date2" class="form-label">to</label>
+                          <input type="date" class="form-control" id="date2" value="1990-01-01">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              ...
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="col">
+
+
+          <div class="resultsGrid" id="image_results_grid"></div>
+          <div class="resultsList">
+            <table id="tableR" class="table table-striped table-hover align-middle results-table text-center">
+              <thead>
+                <tr>
+                  <th class="colNumber"></th>
+                  <th id="colSelHead"><i class="bi bi-check2-square"></i></th>
+                  <th id="colRelHead" class="colRel">Relevance</th>
+                  <th class="colPubNr">Doc-Number</th>
+                  <th class="colTitle">Title</th>
+                  <th class="colYear">Publication date</th>
+                  <th class="colInventor">Inventor</th>
+                  <th class="colPicHeader">Picture</th>
+                </tr>
+              </thead>
+              <tbody id="resultstablebody">
+
+                <!-- hier wird die Resultlist herein generiert aus javascript.js-->
+
+              </tbody>
+            </table>
+          </div>
+          <div class="loadMore">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+              <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarresult">
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                      <a id="resultpage1" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(0);return false;">1</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpage2" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(10);return false;">2</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpage3" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(20);return false;">3</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpage4" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(30);return false;">4</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpage5" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(40);return false;">5</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpage6" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(50);return false;">6</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpage7" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(60);return false;">7</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpage8" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(70);return false;">8</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpage9" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(80);return false;">9</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpage10" class="nav-link hide-navigation-item" aria-current="page" href="#"
+                        onclick="showResults(90);return false;">10</a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="resultpagenext" class="nav-link hide-navigation-item" title="next page" href="#"
+                        onclick="nextResults()">
+                        <i class="bi bi-arrow-right"></i></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+
+            <!-- <div class="col-1" ><a class="nav-link" title="next page" href="#" onclick="showList()">
+              <i class="bi bi-arrow-right"></i></a></div>
+                 -->
+          </div>
+        </div>
+        <div id="collapsePreview" class="col-3 collapse collapse-horizontal">
+          <div class="panel-body">Preview Images</div>
+          <div id="previewCaption"></div>
+          
+          <!-- {{description | safe}} -->
+          <!-- <div class="panel-footer">Footer</div> -->
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- erstmal raus lassen
+  <div>
+    zweite column
+    <div class="test">
+        <h2>Current query: </h2>
+        
+        <div class="testQuery">
+          <p id="localInput">Input</p>
+          <p id="localFilter">Filter</p>
+          <p id="localImg">Image</p>
+          <p id="localRef">Ref</p>
+        </div>
+        <button class="query">
+          <span class="tooltiptext">
+            Send the query</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24"
+            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <circle cx="10" cy="10" r="7"></circle>
+            <line x1="21" y1="21" x2="15" y2="15"></line>
+          </svg>
+        </button>
+      </div>     
+  </div>
+  -->
+
+
+
+    <!-- TODO: get rid of this ugly SVG button -->
+
+
+
+    <!-- FOOTER -->
+    <div class="container-fluid bg-dark mt-auto">
+      <footer class="py-3">
+        <ul class="nav justify-content-center pb-3">
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Search</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+          <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Imprint</a></li>
+        </ul>
+        <p class="text-center text-muted">Logos of project partners</p>
+      </footer>
+    </div>
+
+
+</body>
+<script type="text/javascript" src="{{filebase+url_for('static', filename='js/results.js')}}"></script>
+<script type="text/javascript" src="{{filebase+url_for('static', filename='js/photoviewer.js')}}"></script>
+
+
+
+
+</html>

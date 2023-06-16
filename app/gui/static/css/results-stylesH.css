@@ -1,0 +1,278 @@
+/*Code redundant! --> bedeutet, dass er aus irgendeinem Grund an der markierten Stelle überflüssig ist und nicht aufgerufen wird/ werden kann */
+
+body {
+  width: 100%;
+}
+
+#linkToSearch {
+  color: var(--white);
+  padding: 8px;
+  text-decoration: none;
+}
+
+.margin-container {
+  margin-top: 80px;
+  margin-left: 5%;
+  margin-right: 5%;
+  min-height: 100%;
+  padding: 10px;
+  background-color: var(--grey);
+
+}
+
+
+#header-container {
+  position: fixed;
+  width: 100%;
+  background-color: var(--white);
+  z-index: 10;
+  top: 0;
+  box-shadow: 2px 2px 2px var(--shadow);
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+/******************** HEADER END ********************/
+
+.results-table th,
+td {
+  padding: 15px;
+
+}
+
+.results-table {
+  display: block;
+  border-collapse: separate;
+  border-spacing: 0px 10px;
+  /* für responsive Größe der Spalten, auch bei Ausblenden einzelner*/
+  width: auto;
+  table-layout: auto;
+}
+
+table tr {
+  background-color: var(--white);
+  /*Code redundant!*/
+}
+
+
+select {
+  -webkit-appearance: menulist-button;
+}
+
+#colRelHead {
+  width: 25px;
+  word-wrap: break-word;
+}
+
+#colSelHead {
+  width: 25px;
+}
+
+.resultTableDrawing {
+  max-width: 80px;
+}
+
+
+/* --------------- MODAL ---------------- */
+
+/* Modal Content/Box */
+#largeImgContent {
+  background-color: var(--white);
+  width: 50vw;
+  height: 70vh;
+  margin-left: 40vh;
+}
+
+/* The Close Button */
+#largeImgClose {
+  margin-top: -110px;
+  padding: 30px;
+  padding-top: 30px;
+  padding-right: 30px;
+  padding-bottom: 30px;
+  padding-left: 30px;
+  color: var(--white);
+  float: right;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#largeImgClose:hover,
+#largeImgClose:focus {
+  color: var(--darkblue);
+  text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#jumpUp {
+  float: right;
+  margin: 3%;
+  color: var(--textcolor);
+}
+
+
+@media screen and (max-width: 1500px) {
+  #sidebarTotal {
+    width: 1200px;
+  }
+}
+
+#sidebarH3 {
+  text-align: center;
+}
+
+/* Style Buttons Farben Stand 25.01.2022 */
+.sidebarButton,
+#toggleButtonHide {
+  box-sizing: border-box;
+  background: var(--white);
+  /*Code in .sidebarButton redundant!*/
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 17px;
+  display: flex;
+  /*Methode um den Inhalt der Buttons vertikal und horizontal zu zentrieren*/
+  justify-content: center;
+  align-items: center;
+  border: none;
+  box-shadow: 2px 2px 5px var(--shadow);
+}
+
+#toggleButtonHide:hover {
+  background-color: var(--buttonhover)
+}
+
+/* siehe aktuelle Farben der Wireframe-Gruppe Stand 25.01.22*/
+.sidebarButton {
+  background: #ABB1CF, 50%;
+}
+
+#filter1 {
+  float: left;
+  width: 11%;
+  padding: 10px;
+  background-color: var(--grey);
+  font-family: 'Roboto', sans-serif;
+  /*Code redundant!*/
+}
+
+.scroll-filter {
+  overflow-y: scroll;
+  height: 200px;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.wrapper {
+  position: relative;
+  padding-right: 1%;
+  margin-bottom: 50px;
+}
+
+.graph {
+  border-style: solid;
+  border-color: var(--buttongrey);
+  border-width: thin;
+  width: 98%;
+}
+
+.sliderContainer {
+  position: relative;
+  margin-bottom: 2%;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  /*Code redundant!*/
+  -moz-appearance: none;
+  /*Code redundant!*/
+  appearance: none;
+  width: 99%;
+  outline: none;
+  position: absolute;
+  margin: auto;
+  background-color: var(--darkblue);
+  pointer-events: none;
+}
+
+/*Range Linie unterhalb des Graphen*/
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  /* Dicke der Linie*/
+  height: 4px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  /* ohne würden die Slider nicht bewegbar sein*/
+  margin-top: -10px;
+  cursor: pointer;
+  /* für die dreieckige Form der Slider */
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 18px solid var(--darkblue);
+}
+
+/* Größe der Input Felder from to*/
+input[type="number"] {
+  width: 87px;
+}
+
+#submitYear {
+  float: right;
+}
+
+#resetOptions {
+  margin: auto;
+}
+
+/* siehe aktuelle Farben der Wireframe-Gruppe Stand 25.01.22*/
+.resetOptions:hover {
+  background-color: #455463;
+}
+
+
+.subfiltercontent.scroll-filter {
+  height: 90%;
+
+}
+
+.subfiltercontent {
+
+  margin-top: 5px;
+}
+
+.subfiltercontent a {
+  color: var(--textcolor);
+  text-decoration: none;
+}
+
+
+.subfiltersearch {
+  display: flex;
+}
+
+.subfiltersearch input[type=text] {
+  width: 85%;
+  border: 1px solid grey;
+  height: 25px;
+  margin-left: 5px;
+}
+
+#patentfilter {
+  min-width: 200px;
+}

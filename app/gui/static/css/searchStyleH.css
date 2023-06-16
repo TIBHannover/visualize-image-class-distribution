@@ -1,0 +1,218 @@
+.currentQuery {
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 10px;
+}
+
+#currentInput,
+#currentFilter,
+#localRef,
+#localImg {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: white;
+    color: var(--text-color);
+    border-radius: 5px;
+}
+
+#currentFilter {
+    display: flex;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+.delete-filter {
+    display: none;
+    margin-left: 10px;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+}
+
+
+#minus1 {
+    display: none;
+}
+
+/* Style Dropdown*/
+.boolean {
+    display: none;
+}
+
+
+.minus {
+    display: inline;
+}
+
+
+.dragdrop {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: #555;
+    border: 1px dashed #bbb;
+    border-radius: 7px;
+    margin-bottom: 10px;
+    padding: 5px 20px 5px 20px;
+}
+
+.url {
+    display: flex;
+    height: 35px;
+}
+
+.url * {
+    width: 100%;
+}
+
+.url input[type=text] {
+    width: 100%;
+    border-radius: 5px 0px 0px 5px;
+    height: 35px;
+    border-color: var(--header);
+    outline: none;
+    padding: 0px 15px 0px 15px;
+}
+
+#urlbtn,
+#bezugsButton {
+    height: 35px;
+    width: 35px;
+    margin-left: 0px;
+    padding: 2px;
+    border-radius: 0px 5px 5px 0px;
+    background-color: var(--header);
+    color: var(--white);
+}
+
+#urlbtn {
+    width: 37px !important;
+}
+
+#bezugsInput {
+    width: 370px;
+}
+
+.scroll-filter {
+    overflow-y: scroll;
+    height: 200px;
+}
+
+.subfiltercontent.scroll-filter {
+    height: 90%;
+
+}
+
+.fbtn {
+    background-color: var(--buttongrey);
+    width: 125px;
+    height: 60px;
+    padding: 0px 5px 0px 5px;
+}
+
+.filter-name {
+    font-weight: bold;
+    font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
+}
+
+.subfiltercontent {
+
+    margin-top: 5px;
+}
+
+.subfiltersearch {
+    display: flex;
+}
+
+.subfiltersearch input[type=text] {
+    width: 85%;
+    border: 1px solid grey;
+    height: 25px;
+    margin-left: 5px;
+}
+
+.subfiltercontent a {
+    color: var(--textcolor);
+    text-decoration: none;
+}
+
+.timeframe {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.yearinput input[type=text] {
+    width: 100px;
+    float: right;
+}
+
+.selected-filter {
+    min-width: 15%;
+    border-left: thick solid var(--grey);
+    padding-left: 5px;
+
+}
+
+.overviewfilter {
+    height: 90%;
+}
+
+.savedelete {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sdbtn {
+    width: 60px;
+    height: 20px;
+    font-size: 12px;
+    padding: 2.5px;
+    margin-right: 0;
+}
+
+.searchImage {
+    max-height: 35px;
+    box-sizing: border-box;
+    width: auto;
+    padding: 3px;
+    cursor: pointer;
+    transition: .3s all ease;
+}
+
+.image-container .searchImage:hover {
+    scale: 5;
+    transition: .3s all ease;
+}
+
+#cQInput,
+#cQfilter,
+#cQImg,
+#cQRef {
+    display: flex;
+}
+
+.flexer {
+    display: flex;
+}
+
+.flexer .url {
+    margin-bottom: auto;
+    margin-top: auto;
+    height: 20px;
+}
+
+.addToSearchI {
+    display: none;
+}
+
+img.selected {
+    background-color: darkgreen;
+    max-height: 140px;
+}
